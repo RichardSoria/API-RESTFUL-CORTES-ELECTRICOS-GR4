@@ -12,7 +12,7 @@ const app = express()
 // MIDDLEWARES
 app.use(express.json())
 
-// RUTAS
+// RUTA INICIO
 app.get('/',(req,res)=>{
     res.send('OK')
 })
