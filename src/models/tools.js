@@ -29,12 +29,23 @@ const toolModel = {
         }
     },
     async getToolModel(toolID){
-        try {
-            const peticion = await fetch(`http://localhost:4000/tools/${toolID}`)
-            const tool = await peticion.json()
-            return tool
-        } catch (error) {
-            console.log(error)
+        if (isDevelopment) {
+            try {
+                const peticion = await fetch(`http://localhost:4000/tools/${toolID}`)
+                const tool = await peticion.json()
+                return tool
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            try {
+                const data = fs.readFileSync(filePath, 'utf-8')
+                const tools = await JSON.parse(data).tools
+                const tool = await tools.find(t => t.id === toolID)
+                return tool
+            } catch (error) {
+                console.log(error)
+            }
         }
     },
 
