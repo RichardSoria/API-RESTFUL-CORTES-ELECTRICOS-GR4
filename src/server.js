@@ -1,8 +1,6 @@
 // Requerir módulos
 // ESMODULES
 import express from 'express'
-import path from 'path';
-import { fileURLToPath } from 'url';
 import router from './routers/tools_routes.js'
 
 // COMMONJS
@@ -10,9 +8,6 @@ import router from './routers/tools_routes.js'
 
 // INICIALIZACION
 const app = express()
-
-// VARIABLES
-app.set('port', process.env.port || 3000)
 
 // MIDDLEWARES
 app.use(express.json())
@@ -22,12 +17,8 @@ app.get('/',(req,res)=>{
     res.send('OK')
 })
 
-// Rutas para el Tour
+// Rutas para tools
 app.use('/api',router)
-
-// Rutas para el user
-
-// Rutas para el booking
 
 // Exportar la instancia de app
 export default app
