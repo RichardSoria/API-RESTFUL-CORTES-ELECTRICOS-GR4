@@ -1,13 +1,32 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const filePath = path.join(__dirname, '../../db.json');
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 const toolModel = {
+    
     async getAllToolsModel(){
-        try {
-            const peticion = await fetch('http://localhost:4000/tools')
-            const tools = await peticion.json()
-            return tools 
-        } catch (error) {
-            console.log(error)
+        if (isDevelopment) {
+            try {
+                const peticion = await fetch('http://localhost:4000/tools')
+                const tools = await peticion.json()
+                return tools 
+            } catch (error) {
+                console.log(error)
+            }  
+        } else {
+            try {
+                const data = fs.readFileSync(filePath, 'utf-8')
+                const tools = await JSON.parse(data).tools
+                return tools 
+            } catch (error) {
+                console.log(error)
+            } 
         }
-        
     },
     async getToolModel(toolID){
         try {
