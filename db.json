@@ -1,0 +1,47 @@
+{
+  "tools": [
+    {
+      "nombre": "Generador Eléctrico",
+      "precio": 450,
+      "marca": "GENCO",
+      "caracteristicas": [
+        "Potencia: 3000W",
+        "Portátil",
+        "Combustible: Gasolina",
+        "Autonomía: 10 horas",
+        "Arranque eléctrico"
+      ]
+    },
+    {
+      "nombre": "UPS",
+      "precio": 120,
+      "marca": "POWER",
+      "caracteristicas": [
+        "Capacidad: 1000VA",
+        "Pantalla LCD",
+        "Batería reemplazable",
+        "Protección contra sobretensiones",
+        "Tiempo de respaldo: 15 minutos"
+      ]
+    },
+    {
+      "id": "91483977-2247-494d-9927-ff8ce832e92a",
+      "nombre": "Cortapicos lineal",
+      "precio": 10,
+      "marca": "BLITZ",
+      "caracteristicas": [
+        "6 tomas",
+        "Cable de 1.50 m",
+        "Protege contra las sobrecargas de hasta 270 Joules",
+        "Trabaja con un voltaje hasta los 120 Voltios y con un amperaje de 15 Amp",
+        "Peso: 0.37 kg."
+      ]
+    }
+  ],
+  "users": [
+    {
+      "user-name": "Admin",
+      "password": "Admin"
+    }
+  ]
+}
