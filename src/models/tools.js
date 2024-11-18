@@ -21,7 +21,7 @@ const toolModel = {
         } else {
             try {
                 const data = fs.readFileSync(filePath, 'utf-8')
-                const tools = await JSON.parse(data).tools
+                const tools = JSON.parse(data).tools
                 return tools 
             } catch (error) {
                 console.log(error)
@@ -40,8 +40,8 @@ const toolModel = {
         } else {
             try {
                 const data = fs.readFileSync(filePath, 'utf-8')
-                const tools = await JSON.parse(data).tools
-                const tool = await tools.find(t => t.id === toolID)
+                const tools = JSON.parse(data).tools
+                const tool = tools.find(t => t.id === toolID)
                 return tool
             } catch (error) {
                 console.log(error)
@@ -50,41 +50,75 @@ const toolModel = {
     },
 
     async createToolModel(newTool){
-        const url = "http://localhost:4000/tools"
-        const peticion = await fetch(url,{
-            method:"POST",
-            body:JSON.stringify(newTool),
-            headers:{"Content-Type":"application/json"}
-        })
+        if (isDevelopment) {
+            const url = "http://localhost:4000/tools"
+            const peticion = await fetch(url,{
+                method:"POST",
+                body:JSON.stringify(newTool),
+                headers:{"Content-Type":"application/json"}
+            })
 
-        const data = await peticion.json()
+            const data = await peticion.json()
+            return data
+            
+        } else {
+            const data = fs.readFileSync(filePath, 'utf-8');
+            const tools = JSON.parse(data).tools;
+            tools.push(newTool);
+            fs.writeFileSync(filePath, JSON.stringify({ tools }), 'utf-8');
 
-        return data
+            return newTool;
+        }
     },
     async updateToolModel (toolID,updatedTool){
-        // CONEXIÓN BDD
-        const url = `http://localhost:4000/tools/${toolID}`
-        // ENVIAR DATA A LA BDD
-        const peticion = await fetch(url,{
+        if (isDevelopment) {
+            // CONEXIÓN BDD
+            const url = `http://localhost:4000/tools/${toolID}`
+            // ENVIAR DATA A LA BDD
+            const peticion = await fetch(url,{
             method:"PUT",
             body:JSON.stringify(updatedTool),
             headers:{"Content-Type":"application/json"}
         })
-
+        
         // OBTENER RESPUESTA DE LA BDD
         const data = await peticion.json()
 
         return data
+
+        } else {
+            const data = fs.readFileSync(filePath, 'utf-8');
+            const tools = JSON.parse(data).tools;
+            const index = tools.findIndex(t => t.id === toolID);
+            if (index !== -1) {
+                tools[index] = { ...tools[index], ...updatedTool };
+                fs.writeFileSync(filePath, JSON.stringify({tools}), 'utf-8');
+                return tools[index];
+            } else {
+                return {message: 'No se ha encintrado ninguna herramienta.'}
+            }
+
+        }
     },
     async deleteToolModel(toolID){
-        const url = `http://localhost:4000/tools/${toolID}`
-        const peticion = await fetch(url,{
-            method:"DELETE"
-        })
+        if (isDevelopment) {
+            const url = `http://localhost:4000/tools/${toolID}`
+            const peticion = await fetch(url,{
+                method:"DELETE"
+            })
+    
+            const data = await peticion.json()
+    
+            return data
 
-        const data = await peticion.json()
+        } else {
+            const data = fs.readFileSync(filePath, 'utf-8');
+            const tools = JSON.parse(data).tools;
+            tools = tools.filter(t => t.id !== toolID);
+            fs.writeFileSync(filePath, JSON.stringify({ tools }), 'utf-8');
+            return {message: 'La herramienta ha sido eliminada.'};
+        }
 
-        return data
     }
 }
 
