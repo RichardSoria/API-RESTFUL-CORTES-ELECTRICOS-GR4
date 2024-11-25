@@ -5,20 +5,21 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev":"node --watch src/index.js",
+    "dev": "node --watch src/index.js",
     "bdd": "json-server --watch db.json --port=4000"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Este proyecto implementa una API básica utilizando los métodos HTTP para manipular recursos en un servidor. A continuación, se describe la estructura del proyecto, el uso de un archivo `db.json` para almacenar la información y los métodos HTTP implementados.",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "express": "^4.21.1",
-    "json-server": "^1.0.0-beta.3",
+    "jsonwebtoken": "^9.0.2",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "json-server": "^1.0.0-beta.3",
     "morgan": "^1.10.0"
   }
 }

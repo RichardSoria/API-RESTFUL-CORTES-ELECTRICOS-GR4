@@ -1,7 +1,8 @@
 // Requerir módulos
 // ESMODULES
 import express from 'express'
-import router from './routers/tools_routes.js'
+import routerTools from './routers/tools_routes.js'
+import routerUsers from './routers/users_routes.js'
 
 // COMMONJS
 // const express = require('express')
@@ -18,7 +19,10 @@ app.get('/',(req,res)=>{
 })
 
 // Rutas para tools
-app.use('/api',router)
+app.use('/api',routerTools)
+
+//Ruta para usuarios
+app.use('/api',routerUsers)
 
 // Exportar la instancia de app
 export default app

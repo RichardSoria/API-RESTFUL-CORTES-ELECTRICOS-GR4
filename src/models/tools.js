@@ -10,9 +10,10 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 const toolModel = {
     
     async getAllToolsModel(){
+        const apiUrl = process.env.API_URL || 'http://localhost:4000'; 
         if (isDevelopment) {
             try {
-                const peticion = await fetch('http://localhost:4000/tools')
+                const peticion = await fetch(`${apiUrl}/tools`)
                 const tools = await peticion.json()
                 return tools 
             } catch (error) {
@@ -28,10 +29,12 @@ const toolModel = {
             } 
         }
     },
+
     async getToolModel(toolID){
+        const apiUrl = process.env.API_URL || 'http://localhost:4000';  
         if (isDevelopment) {
             try {
-                const peticion = await fetch(`http://localhost:4000/tools/${toolID}`)
+                const peticion = await fetch(`${apiUrl}/tools/${toolID}`)
                 const tool = await peticion.json()
                 return tool
             } catch (error) {
@@ -50,8 +53,9 @@ const toolModel = {
     },
 
     async createToolModel(newTool){
+        const apiUrl = process.env.API_URL || 'http://localhost:4000'; 
         if (isDevelopment) {
-            const url = "http://localhost:4000/tools"
+            const url = `${apiUrl}/tools`
             const peticion = await fetch(url,{
                 method:"POST",
                 body:JSON.stringify(newTool),
@@ -70,21 +74,19 @@ const toolModel = {
             return newTool;
         }
     },
-    async updateToolModel (toolID,updatedTool){
-        if (isDevelopment) {
-            // CONEXIÓN BDD
-            const url = `http://localhost:4000/tools/${toolID}`
-            // ENVIAR DATA A LA BDD
-            const peticion = await fetch(url,{
-            method:"PUT",
-            body:JSON.stringify(updatedTool),
-            headers:{"Content-Type":"application/json"}
-        })
-        
-        // OBTENER RESPUESTA DE LA BDD
-        const data = await peticion.json()
 
-        return data
+    async updateToolModel(toolID, updatedTool){
+        const apiUrl = process.env.API_URL || 'http://localhost:4000';
+        if (isDevelopment) {
+            const url = `${apiUrl}/tools/${toolID}`
+            const peticion = await fetch(url, {
+                method: "PUT",
+                body: JSON.stringify(updatedTool),
+                headers: { "Content-Type": "application/json" }
+            })
+            
+            const data = await peticion.json()
+            return data
 
         } else {
             const data = fs.readFileSync(filePath, 'utf-8');
@@ -92,35 +94,25 @@ const toolModel = {
             const index = tools.findIndex(t => t.id === toolID);
             if (index !== -1) {
                 tools[index] = { ...tools[index], ...updatedTool };
-                fs.writeFileSync(filePath, JSON.stringify({tools}), 'utf-8');
+                fs.writeFileSync(filePath, JSON.stringify({ tools }), 'utf-8');
                 return tools[index];
             } else {
-                return {message: 'No se ha encintrado ninguna herramienta.'}
+                return { message: 'No se ha encontrado ninguna herramienta.' }
             }
-
         }
     },
+
     async deleteToolModel(toolID){
-        if (isDevelopment) {
-            const url = `http://localhost:4000/tools/${toolID}`
-            const peticion = await fetch(url,{
-                method:"DELETE"
-            })
-    
-            const data = await peticion.json()
-    
-            return data
+        const apiUrl = process.env.API_URL || 'http://localhost:4000'; 
+        const url = `${apiUrl}/tools/${toolID}`;
 
-        } else {
-            const data = fs.readFileSync(filePath, 'utf-8');
-            const tools = JSON.parse(data).tools;
-            tools = tools.filter(t => t.id !== toolID);
-            fs.writeFileSync(filePath, JSON.stringify({ tools }), 'utf-8');
-            return {message: 'La herramienta ha sido eliminada.'};
-        }
-
+        const peticion = await fetch(url, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" }
+        })
+        const data = await peticion.json()
+        return data
     }
 }
 
-// Exportar un solo elemento
-export default toolModel
+export default toolModel;
