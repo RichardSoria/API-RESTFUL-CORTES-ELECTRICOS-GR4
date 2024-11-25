@@ -12,6 +12,6 @@ router.get('/tools/:id',getToolController)
 
 router.post('/tools',verifyToken,createToolController)
 router.put('/tools/:id',verifyToken,updateToolController)
-router.delete('/tools/:id', deleteToolController)
+router.delete('/tools/:id', verifyToken,deleteToolController)
 
 export default router
