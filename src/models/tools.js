@@ -1,118 +1,72 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const filePath = path.join(__dirname, '../../db.json');
-const isDevelopment = process.env.NODE_ENV === 'development';
+dotenv.config();
 
-const toolModel = {
-    
+const toolModel ={
+
     async getAllToolsModel(){
-        const apiUrl = process.env.API_URL || 'http://localhost:4000'; 
-        if (isDevelopment) {
-            try {
-                const peticion = await fetch(`${apiUrl}/tools`)
-                const tools = await peticion.json()
-                return tools 
-            } catch (error) {
-                console.log(error)
-            }  
-        } else {
-            try {
-                const data = fs.readFileSync(filePath, 'utf-8')
-                const tools = JSON.parse(data).tools
-                return tools 
-            } catch (error) {
-                console.log(error)
-            } 
-        }
-    },
+        const peticion = await fetch(process.env.URL_BDD_TOOLS)
+        const tools = await peticion.json()
+        return tools
+    }
+    
+    ,
 
-    async getToolModel(toolID){
-        const apiUrl = process.env.API_URL || 'http://localhost:4000';  
-        if (isDevelopment) {
-            try {
-                const peticion = await fetch(`${apiUrl}/tools/${toolID}`)
-                const tool = await peticion.json()
-                return tool
-            } catch (error) {
-                console.log(error)
-            }
-        } else {
-            try {
-                const data = fs.readFileSync(filePath, 'utf-8')
-                const tools = JSON.parse(data).tools
-                const tool = tools.find(t => t.id === toolID)
-                return tool
-            } catch (error) {
-                console.log(error)
-            }
+    async getToolByIDModel(toolId) {
+        const response = await fetch(`${process.env.URL_BDD_TOOLS}${toolId}`);
+        if (!response.ok) {
+            return {error:"Herramienta o insumo no encontrado"}
         }
-    },
+        const data = await response.json()
+        return data
+    }
+    
+    ,
 
     async createToolModel(newTool){
-        const apiUrl = process.env.API_URL || 'http://localhost:4000'; 
-        if (isDevelopment) {
-            const url = `${apiUrl}/tools`
-            const peticion = await fetch(url,{
-                method:"POST",
-                body:JSON.stringify(newTool),
-                headers:{"Content-Type":"application/json"}
-            })
-
-            const data = await peticion.json()
-            return data
-            
-        } else {
-            const data = fs.readFileSync(filePath, 'utf-8');
-            const tools = JSON.parse(data).tools;
-            tools.push(newTool);
-            fs.writeFileSync(filePath, JSON.stringify({ tools }), 'utf-8');
-
-            return newTool;
-        }
-    },
-
-    async updateToolModel(toolID, updatedTool){
-        const apiUrl = process.env.API_URL || 'http://localhost:4000';
-        if (isDevelopment) {
-            const url = `${apiUrl}/tools/${toolID}`
-            const peticion = await fetch(url, {
-                method: "PUT",
-                body: JSON.stringify(updatedTool),
-                headers: { "Content-Type": "application/json" }
-            })
-            
-            const data = await peticion.json()
-            return data
-
-        } else {
-            const data = fs.readFileSync(filePath, 'utf-8');
-            const tools = JSON.parse(data).tools;
-            const index = tools.findIndex(t => t.id === toolID);
-            if (index !== -1) {
-                tools[index] = { ...tools[index], ...updatedTool };
-                fs.writeFileSync(filePath, JSON.stringify({ tools }), 'utf-8');
-                return tools[index];
-            } else {
-                return { message: 'No se ha encontrado ninguna herramienta.' }
-            }
-        }
-    },
-
-    async deleteToolModel(toolID){
-        const apiUrl = process.env.API_URL || 'http://localhost:4000'; 
-        const url = `${apiUrl}/tools/${toolID}`;
-
-        const peticion = await fetch(url, {
-            method: "DELETE",
-            headers: { "Content-Type": "application/json" }
+        const url = process.env.URL_BDD_TOOLS
+        const peticion  = await fetch(url,{
+            method:'POST',
+            body:JSON.stringify(newTool),
+            headers:{'Content-Type':'application/json'}
         })
         const data = await peticion.json()
         return data
     }
+
+    ,
+
+    async updateToolModel(toolId,updateToolModel){
+        // CONEXIÓN A BDD
+        const url = `${process.env.URL_BDD_TOOLS}${toolId}`
+        // ENVIAR INFO A BDD
+        const peticion = await fetch(url,{
+            method:"PUT",
+            body:JSON.stringify(updateToolModel),
+            headers:{'Content-Type':"application/json"}
+        })
+        // OBTENER REPUESTA DE BDD
+        const data = await peticion.json()
+        // MANDAR RESPUESTA A CONTROLADOR
+        return data
+    }
+
+    ,
+
+    async deleteToolModel(toolId){
+        // CONEXIÓN A BDD
+        const url = `${process.env.URL_BDD_TOOLS}${toolId}`
+        // ENVIAR INFO A BDD
+        const peticion = await fetch(url,{
+            method:"DELETE"
+        })
+        // OBTENER REPUESTA DE BDD
+        const data = await peticion.json()
+        // MANDAR RESPUESTA A CONTROLADOR
+        return data
+    }
+
+
 }
 
-export default toolModel;
+export default toolModel

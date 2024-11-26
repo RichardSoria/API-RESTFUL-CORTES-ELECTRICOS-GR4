@@ -1,28 +1,55 @@
-// Requerir módulos
-// ESMODULES
+// Requerir módulos 
 import express from 'express'
-import routerTools from './routers/tools_routes.js'
-import routerUsers from './routers/users_routes.js'
+import cloudinary from 'cloudinary'
+import fileUpload from 'express-fileupload'
+import dotenv from 'dotenv'
 
-// COMMONJS
-// const express = require('express')
+import routerTool from './routers/tool_routes.js'
+import routerUser from './routers/user_routes.js'
 
-// INICIALIZACION
+
+dotenv.config()
+
+console.log(process.env.CLOUDINARY_CLOUD_NAME)
+
+
+// Inicializaciones
 const app = express()
 
-// MIDDLEWARES
-app.use(express.json())
-
-// RUTA INICIO
-app.get('/',(req,res)=>{
-    res.send('OK')
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
-// Rutas para tools
-app.use('/api',routerTools)
+app.use(fileUpload({
+    useTempFiles : true,
+    tempFileDir : './tmp'
+}));
 
-//Ruta para usuarios
-app.use('/api',routerUsers)
 
-// Exportar la instancia de app
+// Variables 
+app.set('port', process.env.port || 3000)
+
+
+// Middlewares
+app.use(express.json())
+
+
+// Rutas 
+app.get('/',(req,res)=>{
+    res.send("Server on")
+})
+
+// Rutas - Tour
+app.use('/api',routerTool)
+
+// Rutas - Users
+app.use('/api',routerUser)
+
+
+// Exportar la variable app 
 export default app
+
+
+
