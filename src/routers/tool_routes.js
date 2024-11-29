@@ -11,7 +11,7 @@ router.get('/tools/:id',getToolByIDController)
 
 // Privada - Admin, Gerente, Empleado
 router.post('/tools/', verifyToken, createToolController)
-router.put('/tools/:id',verifyToken,updateToolController)
+router.patch('/tools/:id',verifyToken,updateToolController)
 router.delete('/tools/:id',verifyToken,deleteToolController)
 
 
