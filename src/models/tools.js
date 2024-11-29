@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-
+import fetch from 'node-fetch';
 dotenv.config();
 
 const toolModel ={
@@ -8,9 +8,7 @@ const toolModel ={
         const peticion = await fetch ("http://localhost:4000/tools")
         const tools = await peticion.json()
         return tools
-    }
-    
-    ,
+    },
 
     async getToolByIDModel(toolId) {
         const response = await fetch(`http://localhost:4000/tools/${toolId}`);
@@ -19,9 +17,7 @@ const toolModel ={
         }
         const data = await response.json()
         return data
-    }
-    
-    ,
+    },
 
     async createToolModel(newTool){
         const url = "http://localhost:4000/tools"
@@ -32,9 +28,7 @@ const toolModel ={
         })
         const data = await peticion.json()
         return data
-    }
-
-    ,
+    },
 
     async updateToolModel(toolId,updateToolModel){
         // CONEXIÓN A BDD
@@ -49,9 +43,7 @@ const toolModel ={
         const data = await peticion.json()
         // MANDAR RESPUESTA A CONTROLADOR
         return data
-    }
-
-    ,
+    },
 
     async deleteToolModel(toolId){
         // CONEXIÓN A BDD
@@ -65,7 +57,6 @@ const toolModel ={
         // MANDAR RESPUESTA A CONTROLADOR
         return data
     }
-
 
 }
 
