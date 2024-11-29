@@ -4,13 +4,6 @@
       "nombre": "Generador Eléctrico",
       "precio": 450,
       "marca": "GENCO",
-      "caracteristicas": [
-        "Potencia: 3000W",
-        "Portátil",
-        "Combustible: Gasolina",
-        "Autonomía: 10 horas",
-        "Arranque eléctrico"
-      ],
       "id": "877b"
     },
     {
@@ -89,6 +82,11 @@
       "id": "4e79daad-377e-4c0d-b923-01527ed1fb72",
       "password": "$2b$10$8rDjwbBEF9x/Q0JTWCn/OumC37hi7c.5iNtl447VTtVIv.23Rh3yu",
       "name": "Richard"
+    },
+    {
+      "id": "6e08682c-889f-4086-8080-5c3be029e357",
+      "password": "$2b$10$XJp.uz/5srS.uqvoF0c9T.FkOaua9GpC/fbH8RIau8gaCxOi5qAq2",
+      "username": "123"
     }
   ]
 }

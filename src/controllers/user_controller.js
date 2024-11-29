@@ -6,41 +6,44 @@ import { createToken } from '../middlewares/auth.js';
 const saltRounds = 10
 
 
-const registerUserController = async (req,res) => {
+const registerUserController = async (req, res) => {
+    const { password, ...otherDataUser } = req.body;
 
-    const {password,...otherDataUser}=req.body
-    const hasehedPassword = await bcrypt.hash(password,saltRounds)
-
-    const userData = {
-        id: uuidv4(),
-        password:hasehedPassword,
-        ...otherDataUser
-    }
     try {
-        const user = await userModel.registerUserModel(userData)
-        res.status(200).json(user)
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        const userData = {
+            id: uuidv4(),
+            password: hashedPassword,
+            ...otherDataUser
+        };
+
+        const user = await userModel.registerUserModel(userData);
+
+        res.status(200).json(user);
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json({ message: "Error al registrar usuario", error: error.message });
     }
 }
 
 
-const loginUserController = async (req,res) => {
-
-    const {username,password} = req.body
+const loginUserController = async (req, res) => {
+    const { username, password } = req.body;
 
     try {
-        
-        const user = await userModel.loginUserModel(username,password)
+        const user = await userModel.loginUserModel(username, password);
 
-        const token = createToken(user)
+        if (user.error) {
+            return res.status(401).json({ message: user.error });
+        }
+        const token = createToken({ id: user.id, username: user.username });
 
-        res.status(200).json({user,token})
-
+        res.status(200).json({ user, token });
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json({ message: "Error al iniciar sesión", error: error.message });
     }
-}
+};
+
 
 
 

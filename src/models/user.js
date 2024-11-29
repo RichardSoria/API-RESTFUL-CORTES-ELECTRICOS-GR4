@@ -8,7 +8,7 @@ dotenv.config();
 const userModel = {
 
     async registerUserModel(newUser){
-        const url = process.env.URL_BDD_USERS
+        const url = "http://localhost:4000/users"
         const peticion = await fetch(url,{
             method:"POST",
             body:JSON.stringify(newUser),
@@ -16,26 +16,24 @@ const userModel = {
         })
         const data = await peticion.json()
         return data
-    }
+    },
 
-    ,
-
-    async loginUserModel(username,password){
-        const url = process.env.URL_BDD_USERS
-        const peticion = await fetch(url)
-        const users = await peticion.json()
-        const user = users.find(user => user.username === username)
-        if(!user){
-            return {error:"Username o password bad"}
+    async loginUserModel(username, password) {
+        const url = "http://localhost:4000/users"
+        const peticion = await fetch(url);
+        const users = await peticion.json();
+        const user = users.find(user => user.username === username);
+   
+        if (!user) {
+            return { error: "Username o password incorrectos" };
         }
-        const passwordMatch = await bcrypt.compare(password,user.password)
-        if (user && passwordMatch){
-            return user
+    
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return { error: "Username o password incorrectos" };
         }
-        else{
-            return {error:"Username o password bad"}
-        }
+        return user;
     }
-}
+}    
 
 export default userModel
