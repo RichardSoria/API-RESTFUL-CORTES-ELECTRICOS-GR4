@@ -10,7 +10,10 @@
     "bdd": "json-server --watch db.json --port 4000",
     "test1": "jest tools.test.js",
     "test2": "jest tool_controller.test.js",
-    "test3": "jest tool_routes.test.js"
+    "test3": "jest tool_routes.test.js",
+    "test4": "jest user.test.js",
+    "test5": "jest user_controller.test.js",
+    "test6": "jest user_routes.test.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +29,7 @@
     "json-server": "^1.0.0-beta.3",
     "jsonwebtoken": "^9.0.2",
     "node-fetch": "^3.3.2",
+    "supertest": "^7.0.0",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

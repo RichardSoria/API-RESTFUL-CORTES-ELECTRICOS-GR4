@@ -81,12 +81,27 @@
     {
       "id": "4e79daad-377e-4c0d-b923-01527ed1fb72",
       "password": "$2b$10$8rDjwbBEF9x/Q0JTWCn/OumC37hi7c.5iNtl447VTtVIv.23Rh3yu",
-      "name": "Richard"
+      "username": "Richard"
     },
     {
       "id": "6e08682c-889f-4086-8080-5c3be029e357",
       "password": "$2b$10$XJp.uz/5srS.uqvoF0c9T.FkOaua9GpC/fbH8RIau8gaCxOi5qAq2",
       "username": "123"
+    },
+    {
+      "id": "2dda30a2-4016-476c-81c8-e103b54e55eb",
+      "password": "$2b$10$EzPWzJdsA3QN7b8VkzdaquOG1HY/fC4XgbB6RfhsZHXZGETgomzh6",
+      "name": "Adrian"
+    },
+    {
+      "id": "a20a253c-412e-4b67-930a-1c27cc43aad2",
+      "password": "$2b$10$bxpnUxBGqEOTYp7i.lus7u1Ucttyh8MVZ5LjBcGLw4qCWyMUrXZd6",
+      "username": "Luis"
+    },
+    {
+      "id": "cf89ef33-da02-4c45-8042-52585bb12c85",
+      "password": "$2b$10$w2167DpGbFXekgyrPMU15.BdpyFZ/7uz545PXjaSGLbYRQ32bgKzW",
+      "username": "Sebas"
     }
   ]
 }

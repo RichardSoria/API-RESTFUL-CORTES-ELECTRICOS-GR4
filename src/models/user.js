@@ -1,6 +1,5 @@
-
 import bcrypt from 'bcrypt';
-
+import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 
 dotenv.config();
