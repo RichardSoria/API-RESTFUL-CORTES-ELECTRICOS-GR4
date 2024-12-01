@@ -28,26 +28,31 @@ const userModel = {
 
     async loginUserModel(username, password) {
         try {
-            const url = `${process.env.URL_BDD_USERS}?username=${username}`;
-            const peticion = await fetch(url);
-            const users = await peticion.json();
+            const url = process.env.URL_BDD_USERS;  
+            const peticion = await fetch(url, {
+                method: "POST",  
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
     
-            if (!users || users.length === 0) {
+            const user = await peticion.json();
+    
+            if (!user || user.error) {
                 return { error: "Username o password incorrectos" };
             }
     
-            const user = users[0]; 
             const passwordMatch = await bcrypt.compare(password, user.password);
             if (!passwordMatch) {
                 return { error: "Username o password incorrectos" };
             }
-
+    
             return user;
         } catch (error) {
             console.error("Error en el login:", error.message);
             return { error: "Error en el login" };
         }
     }
+    
 };
 
 export default userModel;
