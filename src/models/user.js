@@ -7,7 +7,7 @@ dotenv.config();
 const userModel = {
 
     async registerUserModel(newUser){
-        const url = process.env.MONGO_URI
+        const url = "http://localhost:4000/users"
         const peticion = await fetch(url,{
             method:"POST",
             body:JSON.stringify(newUser),
@@ -18,7 +18,7 @@ const userModel = {
     },
 
     async loginUserModel(username, password) {
-        const url = process.env.MONGO_URI
+        const url = "http://localhost:4000/users"
         const peticion = await fetch(url);
         const users = await peticion.json();
         const user = users.find(user => user.username === username);

@@ -20,7 +20,7 @@ const toolModel ={
     },
 
     async createToolModel(newTool){
-        const url = "http://localhost:4000/tools"
+        const url = process.env.MONGO_EXPORT
         const peticion  = await fetch(url,{
             method:'POST',
             body:JSON.stringify(newTool),
