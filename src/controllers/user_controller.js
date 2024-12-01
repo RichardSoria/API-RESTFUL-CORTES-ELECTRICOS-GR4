@@ -11,13 +11,11 @@ const registerUserController = async (req, res) => {
 
     try {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-
         const userData = {
             id: uuidv4(),
             password: hashedPassword,
             ...otherDataUser
         };
-
         const user = await userModel.registerUserModel(userData);
 
         res.status(200).json(user);
@@ -29,22 +27,17 @@ const registerUserController = async (req, res) => {
 
 const loginUserController = async (req, res) => {
     const { username, password } = req.body;
-
     try {
         const user = await userModel.loginUserModel(username, password);
-
         if (user.error) {
             return res.status(401).json({ message: user.error });
         }
         const token = createToken({ id: user.id, username: user.username });
-
         res.status(200).json({ user, token });
     } catch (error) {
         res.status(500).json({ message: "Error al iniciar sesión", error: error.message });
     }
 };
-
-
 
 
 export {
