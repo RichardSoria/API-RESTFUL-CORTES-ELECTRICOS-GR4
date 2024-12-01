@@ -5,7 +5,7 @@ dotenv.config();
 const toolModel ={
 
     async getAllToolsModel(){
-        const peticion = await fetch ("http://localhost:4000/tools")
+        const peticion = await fetch (process.env.MONGO_URI)
         const tools = await peticion.json()
         return tools
     },
