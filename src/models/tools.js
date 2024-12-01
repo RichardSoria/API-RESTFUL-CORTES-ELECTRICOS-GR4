@@ -1,63 +1,50 @@
-import dotenv from 'dotenv';
 import fetch from 'node-fetch';
+import dotenv from 'dotenv';
 dotenv.config();
 
-const toolModel ={
+// Definimos el modelo de usuario
+const userModel = {
+    async registerUserModel(newUser) {
+        const url = process.env.URL_BDD_TOOLS;
+        if (!url) throw new Error("URL de la base de datos no configurada");
+        const peticion = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify(newUser),
+            headers: { 'Content-Type': "application/json" } 
+        });
 
-    async getAllToolsModel(){
-        const peticion = await fetch (process.env.MONGO_EXPORT)
-        const tools = await peticion.json()
-        return tools
-    },
-
-    async getToolByIDModel(toolId) {
-        const response = await fetch(`http://localhost:4000/tools/${toolId}`);
-        if (!response.ok) {
-            return {error:"Herramienta o insumo no encontrado"}
+        if (!peticion.ok) {
+            throw new Error(`Error en la petición: ${peticion.statusText}`);
         }
-        const data = await response.json()
-        return data
+
+        const data = await peticion.json();
+        return data;
     },
 
-    async createToolModel(newTool){
-        const url = process.env.MONGO_EXPORT
-        const peticion  = await fetch(url,{
-            method:'POST',
-            body:JSON.stringify(newTool),
-            headers:{'Content-Type':'application/json'}
-        })
-        const data = await peticion.json()
-        return data
-    },
+    async loginUserModel(username, password) {
+        const url = process.env.URL_BDD_TOOLS;
+        if (!url) throw new Error("URL de la base de datos no configurada");
 
-    async updateToolModel(toolId,updateToolModel){
-        // CONEXIÓN A BDD
-        const url = `http://localhost:4000/tools/${toolId}`;
-        // ENVIAR INFO A BDD
-        const peticion = await fetch(url,{
-            method:"PUT",
-            body:JSON.stringify(updateToolModel),
-            headers:{'Content-Type':"application/json"}
-        })
-        // OBTENER REPUESTA DE BDD
-        const data = await peticion.json()
-        // MANDAR RESPUESTA A CONTROLADOR
-        return data
-    },
+        const peticion = await fetch(url);
 
-    async deleteToolModel(toolId){
-        // CONEXIÓN A BDD
-        const url = `http://localhost:4000/tools/${toolId}`;
-        // ENVIAR INFO A BDD
-        const peticion = await fetch(url,{
-            method:"DELETE"
-        })
-        // OBTENER REPUESTA DE BDD
-        const data = await peticion.json()
-        // MANDAR RESPUESTA A CONTROLADOR
-        return data
+        if (!peticion.ok) {
+            throw new Error(`Error en la petición: ${peticion.statusText}`);
+        }
+
+        const users = await peticion.json();
+
+        const user = users.find(user => user.username === username);
+
+        if (!user) {
+            return { error: "Username o password incorrectos" };
+        }
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return { error: "Username o password incorrectos" };
+        }
+
+        return user;
     }
+};
 
-}
-
-export default toolModel
+export default userModel;
