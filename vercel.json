@@ -1,5 +1,5 @@
 {
-    "version": 4,
+    "version": 2,
     "builds": [
       {
         "src": "src/index.js",
@@ -10,6 +10,15 @@
       {
         "src": "/(.*)",
         "dest": "/src/index.js"
+      },
+      {
+        "src": "/models/user",
+        "dets": "/models/user.js"
+      }
+      ,
+      {
+        "src": "/models/tools",
+        "dets": "/models/tools.js"
       }
     ]
   }
