@@ -15,3 +15,11 @@ export default {
       '^(\\.{1,2}/.*)\\.js$': '$1',
     }
   };
+
+  module.exports = {
+    testPathIgnorePatterns: [
+      "/node_modules/",
+      "/test/load-tests/" 
+    ],
+  };
+  

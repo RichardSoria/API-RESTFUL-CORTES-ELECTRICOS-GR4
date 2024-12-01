@@ -1,0 +1,59 @@
+config:
+  target: "http://localhost:3000" 
+  phases:
+    - duration: 60               
+      arrivalRate: 10            
+    - duration: 30              
+      arrivalRate: 20            
+    - duration: 30               
+      arrivalRate: 50            
+scenarios:
+  - name: "Normal User Actions"
+    flow:
+      - post:
+          url: "/login"
+          json:
+            username: "{{ $randomUser.username }}"
+            password: "{{ $randomUser.password }}"
+      - get:
+          url: "/dashboard"
+      - get:
+          url: "/products"
+      - post:
+          url: "/cart"
+          json:
+            productId: "{{ $randomProduct.id }}"
+  - name: "Admin Actions"
+    flow:
+      - post:
+          url: "/login"
+          json:
+            username: "admin"
+            password: "adminpass"
+      - get:
+          url: "/admin/dashboard"
+      - get:
+          url: "/admin/users"
+      - post:
+          url: "/admin/create"
+          json:
+            username: "newuser{{ $uuid }}"
+            role: "user"
+
+plugins:
+  faker:
+    enabled: true
+
+payload:
+  randomUser:
+    - username: "user1"
+      password: "pass1"
+    - username: "user2"
+      password: "pass2"
+    - username: "user3"
+      password: "pass3"
+
+  randomProduct:
+    - id: 101
+    - id: 102
+    - id: 103
