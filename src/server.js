@@ -47,9 +47,6 @@ app.use('/api',routerTool)
 // Rutas - Users
 app.use('/api',routerUser)
 
-app.listen(4000, () => {
-    console.log('Servidor escuchando en el puerto 4000');
-  });
 
 // Exportar la variable app 
 export default app
