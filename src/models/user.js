@@ -25,7 +25,7 @@ const userModel = {
 
     async loginUserModel(username, password) {
         try {
-            const url = 'https://usuariossoria.free.beeceptor.com/api/users'; 
+            const url = 'https://usuariossoria.free.beeceptor.com/api/users/login'; 
             const peticion = await fetch(url, {
                 method: "POST",  
                 headers: { 'Content-Type': 'application/json' },
