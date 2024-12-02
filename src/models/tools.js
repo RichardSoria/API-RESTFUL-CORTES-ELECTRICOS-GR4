@@ -27,8 +27,8 @@ const toolModel = {
     },
     // Crear nueva herramienta
     async createToolModel(newTool){
-        const url = process.env.URL_BDD_TOOLS;
         try {
+            const url = process.env.URL_BDD_TOOLS;
             const peticion = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(newTool),
@@ -48,8 +48,8 @@ const toolModel = {
     },
 
     async updateToolModel(toolId, updatedToolData){
-        const url = `${process.env.URL_BDD_TOOLS}${toolId}`;
         try {
+            const url = `${process.env.URL_BDD_TOOLS}${toolId}`;
             // Obtener los datos existentes del recurso
             const existingToolResponse = await fetch(url);
             if (!existingToolResponse.ok) {
