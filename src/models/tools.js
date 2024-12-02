@@ -16,8 +16,12 @@ const toolModel = {
 
     // Obtener herramienta por ID
     async getToolByIDModel(toolId) {
-        const url = `${process.env.URL_BDD_TOOLS}/${toolId}`;  // Usando URL_BDD_TOOLS para obtener herramientas por ID
-        const response = await fetch(url);
+        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;  // Usando URL_BDD_TOOLS para obtener herramientas por ID
+        const response = await fetch(url,{
+            method: 'GET',
+            body: JSON.stringify(newTool),
+            headers: { 'Content-Type': 'application/json' }
+        });
         if (!response.ok) {
             return { error: "Herramienta o insumo no encontrado" };
         }
@@ -27,7 +31,7 @@ const toolModel = {
 
     // Crear nueva herramienta
     async createToolModel(newTool) {
-        const url = process.env.URL_BDD_TOOLS;  // Usando URL_BDD_TOOLS para la creación
+        const url = process.env.URL_BDD_TOOLS; 
         if (!url) throw new Error("URL de la base de datos no configurada");
 
         const peticion = await fetch(url, {
@@ -46,7 +50,7 @@ const toolModel = {
 
     // Actualizar herramienta por ID
     async updateToolModel(toolId, updateToolModel) {
-        const url = `${process.env.URL_BDD_TOOLS}/${toolId}`;  // Usando URL_BDD_TOOLS para actualizar por ID
+        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;  
 
         const peticion = await fetch(url, {
             method: "PUT",
@@ -64,7 +68,7 @@ const toolModel = {
 
     // Eliminar herramienta por ID
     async deleteToolModel(toolId) {
-        const url = `${process.env.URL_BDD_TOOLS}/${toolId}`;  // Usando URL_BDD_TOOLS para eliminar por ID
+        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;  // Usando URL_BDD_TOOLS para eliminar por ID
 
         const peticion = await fetch(url, {
             method: "DELETE"
