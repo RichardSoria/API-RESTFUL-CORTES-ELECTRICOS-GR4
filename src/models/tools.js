@@ -16,11 +16,10 @@ const toolModel = {
 
     // Obtener herramienta por ID
     async getToolByIDModel(toolId) {
-        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;  // Usando URL_BDD_TOOLS para obtener herramientas por ID
-        const response = await fetch(url,{
-            method: 'GET',
-            body: JSON.stringify(newTool),
-            headers: { 'Content-Type': 'application/json' }
+        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;  
+        const response = await fetch(url, {
+            method: 'GET', 
+            headers: { 'Content-Type': 'application/json' } 
         });
         if (!response.ok) {
             return { error: "Herramienta o insumo no encontrado" };
@@ -28,6 +27,7 @@ const toolModel = {
         const data = await response.json();
         return data;
     },
+
 
     // Crear nueva herramienta
     async createToolModel(newTool) {
@@ -48,39 +48,44 @@ const toolModel = {
         return data;
     },
 
-    // Actualizar herramienta por ID
-    async updateToolModel(toolId, updateToolModel) {
-        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;  
-
+    async updateToolModel(toolId, updatedToolData) {
+        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;
+        
         const peticion = await fetch(url, {
             method: "PUT",
-            body: JSON.stringify(updateToolModel),
+            body: JSON.stringify(updatedToolData),
             headers: { 'Content-Type': "application/json" }
         });
-
+    
         if (!peticion.ok) {
             throw new Error(`Error al actualizar la herramienta: ${peticion.statusText}`);
         }
-
+    
         const data = await peticion.json();
         return data;
     },
+    
 
-    // Eliminar herramienta por ID
     async deleteToolModel(toolId) {
-        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;  // Usando URL_BDD_TOOLS para eliminar por ID
-
+        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;
+        
         const peticion = await fetch(url, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: { 'Content-Type': 'application/json' } 
         });
-
+    
         if (!peticion.ok) {
             throw new Error(`Error al eliminar la herramienta: ${peticion.statusText}`);
         }
 
-        const data = await peticion.json();
-        return data;
+        try {
+            const data = await peticion.json();
+            return data;
+        } catch {
+            return { message: "Recurso eliminado exitosamente" }; 
+        }
     }
+    
 
 };
 
