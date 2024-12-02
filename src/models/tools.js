@@ -26,7 +26,7 @@ const toolModel = {
         return data;
     },
     // Crear nueva herramienta
-    async createToolModel(newTool){
+    async createToolModel(newTool) {
         try {
             const url = process.env.URL_BDD_TOOLS;
             const peticion = await fetch(url, {
@@ -36,7 +36,8 @@ const toolModel = {
             });
     
             if (!peticion.ok) {
-                throw new Error(`Error al crear la herramienta: ${peticion.statusText}`);
+                const errorDetails = await peticion.text();
+                throw new Error(`Error al crear la herramienta: ${peticion.statusText} - ${errorDetails}`);
             }
     
             const data = await peticion.json();
