@@ -19,35 +19,98 @@ const getToolByIDController = async (req,res) => {
     }
 }
 
-const createToolController = async (req,res) => {
+const createToolController = async (req, res) => {
     const newToolData = {
-        id:uuidv4(),
-        ...req.body
-    }
-    // req.body req.params req.query req.files req.headers
+        id: uuidv4(),
+        ...req.body,
+    };
+
     try {
-        console.log(req.files.image.tempFilePath)
-        const cloudinaryResponse = await cloudinary.uploader.upload(req.files.image.tempFilePath,{folder:"tools"})
+        // Verificar que se haya recibido un archivo de imagen
+        if (!req.files || !req.files.image) {
+            throw new Error("No se proporcionó ninguna imagen");
+        }
 
-        newToolData.image = cloudinaryResponse.url
-        newToolData.public_id = cloudinaryResponse.public_id
+        // Acceder al buffer de la imagen
+        const imageBuffer = req.files.image.data;
 
-        const tool = await toolModel.createToolModel(newToolData)
-        
-        res.status(201).json(tool)
+        // Subir la imagen a Cloudinary directamente desde el buffer
+        const cloudinaryUpload = () =>
+            new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    { folder: "tools" },
+                    (error, result) => {
+                        if (error) return reject(error);
+                        resolve(result);
+                    }
+                );
+                stream.end(imageBuffer); // Pasar el buffer al stream
+            });
+
+        const cloudinaryResponse = await cloudinaryUpload();
+
+        // Guardar la URL y el public_id en los datos de la herramienta
+        newToolData.image = cloudinaryResponse.url;
+        newToolData.public_id = cloudinaryResponse.public_id;
+
+        // Crear la herramienta en la base de datos
+        const tool = await toolModel.createToolModel(newToolData);
+
+        // Responder con los datos de la nueva herramienta
+        res.status(201).json(tool);
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json({ error: error.message });
     }
 }
 
-const updateToolController = async(req,res) => {
-    const {id} = req.params
-    try {
-        const tool = await toolModel.updateToolModel(id,req.body)
+const updateToolController = async (req, res) => {
+    const { id } = req.params;
 
-        res.status(200).json(tool)
+    try {
+        // Verificar si existe la herramienta
+        const existingTool = await toolModel.getToolByIDModel(id);
+        if (!existingTool || existingTool.error) {
+            return res.status(404).json({ error: "Herramienta no encontrada" });
+        }
+
+        // Verificar si se ha proporcionado una nueva imagen
+        let updatedData = { ...req.body };
+
+        if (req.files && req.files.image) {
+            // Eliminar la imagen existente en Cloudinary, si aplica
+            if (existingTool.public_id) {
+                await cloudinary.uploader.destroy(existingTool.public_id);
+            }
+
+            // Subir la nueva imagen desde el buffer
+            const imageBuffer = req.files.image.data;
+
+            const cloudinaryUpload = () =>
+                new Promise((resolve, reject) => {
+                    const stream = cloudinary.uploader.upload_stream(
+                        { folder: "tools" },
+                        (error, result) => {
+                            if (error) return reject(error);
+                            resolve(result);
+                        }
+                    );
+                    stream.end(imageBuffer); // Pasar el buffer al stream
+                });
+
+            const cloudinaryResponse = await cloudinaryUpload();
+
+            // Agregar la URL y public_id al objeto de datos actualizados
+            updatedData.image = cloudinaryResponse.url;
+            updatedData.public_id = cloudinaryResponse.public_id;
+        }
+
+        // Actualizar los datos de la herramienta en la base de datos
+        const updatedTool = await toolModel.updateToolModel(id, updatedData);
+
+        // Responder con los datos de la herramienta actualizada
+        res.status(200).json(updatedTool);
     } catch (error) {
-        res.status(500).json(error)
+        res.status(500).json({ error: error.message });
     }
 }
 

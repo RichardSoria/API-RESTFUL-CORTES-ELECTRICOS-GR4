@@ -23,8 +23,7 @@ cloudinary.config({
 })
 
 app.use(fileUpload({
-    useTempFiles : true,
-    tempFileDir : './tmp'
+    useTempFiles: false, // Evita la creación de archivos temporales
 }));
 
 
