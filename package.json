@@ -23,7 +23,8 @@
     "test6": "jest user_routes.test.js",
     "load": "artillery run src/test/load-tests/load-test.yml",
     "validate": "node src/test/load-tests/validate-under-load.test.js",
-    "test-load": "npm run load && npm run validate"
+    "test-load": "npm run load && npm run validate",
+    "toolsenvio": " node sendToolsToBeeceptor.js"
   },
   "keywords": [],
   "author": "",
