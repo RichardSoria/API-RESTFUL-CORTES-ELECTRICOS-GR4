@@ -30,9 +30,9 @@ const toolModel = {
         const url = process.env.URL_BDD_TOOLS;
         try {
             const peticion = await fetch(url, {
-                method: 'POST',
+                method: "POST",
                 body: JSON.stringify(newTool),
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': "application/json" }
             });
     
             if (!peticion.ok) {
@@ -49,7 +49,6 @@ const toolModel = {
 
     async updateToolModel(toolId, updatedToolData){
         const url = `${process.env.URL_BDD_TOOLS}${toolId}`;
-    
         try {
             // Obtener los datos existentes del recurso
             const existingToolResponse = await fetch(url);
