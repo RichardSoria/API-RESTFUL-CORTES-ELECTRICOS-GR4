@@ -12,7 +12,6 @@ dotenv.config()
 
 console.log(process.env.CLOUDINARY_CLOUD_NAME)
 
-
 // Inicializaciones
 const app = express()
 
@@ -36,9 +35,23 @@ app.use(express.json())
 
 
 // Rutas 
-app.get('/',(req,res)=>{
-    res.send("Server on")
-})
+// Ruta principal
+app.get('/', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>API-CRUD GR#4</title>
+            <link rel="icon" href="https://epnecuador-my.sharepoint.com/:i:/g/personal/richard_soria_epn_edu_ec/Ebont2a_7zNOiO1Q2S9OajwBIWfV_M6FHv5hcEAaDXU7QQ?e=0RnPt6" type="image/x-icon">
+        </head>
+        <body>
+            <p>Server ON</p>
+        </body>
+        </html>
+    `);
+});
 
 // Rutas - Tour
 app.use('/api',routerTool)
@@ -49,6 +62,3 @@ app.use('/api',routerUser)
 
 // Exportar la variable app 
 export default app
-
-
-
