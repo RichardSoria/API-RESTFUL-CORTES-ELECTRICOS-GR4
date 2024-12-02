@@ -1,13 +1,10 @@
 import bcrypt from 'bcrypt';
 import fetch from 'node-fetch';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const userModel = {
     async registerUserModel(newUser) {
         try {
-            const url = process.env.URL_BDD_USERS; // Usamos la URL desde las variables de entorno
+            const url = 'https://usuariossoria.free.beeceptor.com/api/users'; // URL literal directamente
             const peticion = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(newUser),
@@ -28,7 +25,7 @@ const userModel = {
 
     async loginUserModel(username, password) {
         try {
-            const url = process.env.URL_BDD_USERS;  
+            const url = 'https://usuariossoria.free.beeceptor.com/api/users'; // URL literal directamente
             const peticion = await fetch(url, {
                 method: "POST",  
                 headers: { 'Content-Type': 'application/json' },
@@ -52,7 +49,6 @@ const userModel = {
             return { error: "Error en el login" };
         }
     }
-    
 };
 
 export default userModel;
