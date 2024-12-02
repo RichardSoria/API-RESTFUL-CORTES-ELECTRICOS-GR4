@@ -32,6 +32,9 @@ A continuación se explican los métodos HTTP implementados en el proyecto:
 
 El método `GET` se utiliza para solicitar información del servidor.
 
+![image](https://github.com/user-attachments/assets/7c3af0e2-e676-44d4-9a56-090fac365eb3)
+
+
 ![GET](https://github.com/user-attachments/assets/c243c0f9-edb0-4bd1-9232-0b1949e492c5)
 
 ---
@@ -40,6 +43,9 @@ El método `GET` se utiliza para solicitar información del servidor.
 
 El método `GET` también se puede usar con un ID específico para obtener los detalles de un recurso en particular.
 
+![image](https://github.com/user-attachments/assets/5b7950ea-ca75-4d1d-b613-115a1f91f58b)
+
+
 ![GET con ID](https://github.com/user-attachments/assets/8ecd9bcd-d2c4-40d6-9d58-2fd6b0620c67)
 
 ---
@@ -47,6 +53,9 @@ El método `GET` también se puede usar con un ID específico para obtener los d
 ### 3.3. POST
 
 El método `POST` se utiliza para crear un nuevo recurso en el servidor.
+
+![image](https://github.com/user-attachments/assets/d0fa42ab-1c37-48db-8f98-8982a506ae87)
+
 
 ![POST](https://github.com/user-attachments/assets/8da28e79-c8e9-4e57-a5ed-20d502cc4085)
 ![POST - Alternativa](https://github.com/user-attachments/assets/4f3e9945-5ff1-485f-9622-d702d994cb7f)
@@ -57,6 +66,9 @@ El método `POST` se utiliza para crear un nuevo recurso en el servidor.
 
 El método `PUT` se utiliza para actualizar completamente un recurso existente en el servidor.
 
+![image](https://github.com/user-attachments/assets/e5608a50-0a07-4cd8-8326-d41230513109)
+
+
 ![PUT](https://github.com/user-attachments/assets/3a022ba6-5125-4f5a-89fd-f2a92b68bb62)
 
 ---
@@ -65,6 +77,9 @@ El método `PUT` se utiliza para actualizar completamente un recurso existente e
 
 El método `DELETE` se utiliza para eliminar un recurso en el servidor.
 
+![image](https://github.com/user-attachments/assets/8de87b47-b759-4d64-b1f2-467991d72b34)
+
+
 ![DELETE](https://github.com/user-attachments/assets/0f73570e-a9c7-4af9-a302-3dbfd6407c4b)
 
 El recurso eliminado ya no estará disponible.
@@ -72,6 +87,10 @@ El recurso eliminado ya no estará disponible.
 ![Recurso Eliminado](https://github.com/user-attachments/assets/3de09797-51bd-495f-9d05-3c39714f88ce)
 
 ---
+
+## Enlaces
+
+Despliegue: https://api-restful-gr-4.vercel.app/
 
 ## Conclusión
 
