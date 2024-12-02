@@ -74,7 +74,7 @@ const updateToolController = async (req, res) => {
         }
 
         // Verificar si se ha proporcionado una nueva imagen
-        let updatedData = { ...req.body };
+        const updatedData = { ...req.body };
 
         if (req.files && req.files.image) {
             // Eliminar la imagen existente en Cloudinary, si aplica
