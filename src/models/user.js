@@ -23,30 +23,18 @@ const userModel = {
         }
     },
 
-    async loginUserModel(username, password) {
-        try {
-            const url = 'https://usuariossoria.free.beeceptor.com/api/users/login'; 
-            const peticion = await fetch(url, {
-                method: "POST",  
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-    
-            const user = await peticion.json();
-    
-            if (!user || user.error) {
-                return { error: "Username o password incorrectos" };
-            }
-    
-            const passwordMatch = await bcrypt.compare(password, user.password);
-            if (!passwordMatch) {
-                return { error: "Username o password incorrectos" };
-            }
-    
-            return user;
-        } catch (error) {
-            console.error("Error en el login:", error.message);
-            return { error: "Error en el login" };
+    async loginUserModel(username,password) {
+        const response = await fetch(`https://usuariossoria.free.beeceptor.com/api/users`)
+        const users = await response.json()
+        const user = users.find(user => user.username === username)
+        if (!user) {
+            return { error: "Username o password invalido" }
+        }
+        const passwordMatch = await bcrypt.compare(password, user.password)
+        if (user && passwordMatch) {
+            return user
+        } else {
+            return {error:"Username o password invalido"}
         }
     }
 };
