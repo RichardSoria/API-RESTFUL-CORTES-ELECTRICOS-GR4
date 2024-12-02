@@ -7,10 +7,7 @@ const saltRounds = 10
 
 
 const registerUserController = async (req, res) => {
-    const { password, username, ...otherDataUser } = req.body;
-    if (!password || !username) {
-        return res.status(400).json({ message: "Faltan campos requeridos" });
-    }
+    const { password, ...otherDataUser } = req.body;
     try {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const userData = {
@@ -30,9 +27,6 @@ const registerUserController = async (req, res) => {
 
 const loginUserController = async (req, res) => {
     const { username, password } = req.body;
-    if (!username || !password) {
-        return res.status(400).json({ message: "Faltan campos requeridos" });
-    }
     try {
         const user = await userModel.loginUserModel(username, password);
         if (user.error) {
