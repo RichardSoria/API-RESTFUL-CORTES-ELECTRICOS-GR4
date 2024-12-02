@@ -14,7 +14,7 @@ const toolModel = {
     },
     // Obtener herramienta por ID
     async getToolByIDModel(toolId) {
-        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;  
+        const url = `${process.env.URL_BDD_TOOLS}${toolId}`;  
         const response = await fetch(url, {
             method: 'GET', 
             headers: { 'Content-Type': 'application/json' } 
@@ -43,11 +43,19 @@ const toolModel = {
     },
 
     async updateToolModel(toolId, updatedToolData) {
-        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;
-        
+        const url = `${process.env.URL_BDD_TOOLS}${toolId}`;
+    
+        const existingToolResponse = await fetch(url);
+        if (!existingToolResponse.ok) {
+            throw new Error(`Error al obtener la herramienta: ${existingToolResponse.statusText}`);
+        }
+        const existingTool = await existingToolResponse.json();
+    
+        const combinedToolData = { ...existingTool, ...updatedToolData };
+    
         const peticion = await fetch(url, {
-            method: "PUT",
-            body: JSON.stringify(updatedToolData),
+            method: "PATCH",
+            body: JSON.stringify(combinedToolData),
             headers: { 'Content-Type': "application/json" }
         });
         if (!peticion.ok) {
@@ -57,7 +65,7 @@ const toolModel = {
         return data;
     },
     async deleteToolModel(toolId) {
-        const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;
+        const url = `${process.env.URL_BDD_TOOLS}${toolId}`;
         const peticion = await fetch(url, {
             method: "DELETE",
             headers: { 'Content-Type': 'application/json' } 

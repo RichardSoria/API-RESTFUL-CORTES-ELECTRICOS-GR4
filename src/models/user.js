@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 const userModel = {
     async registerUserModel(newUser) {
         try {
-            const url = 'https://usuariossoria.free.beeceptor.com/api/users';
+            const url = process.env.URL_BDD_USERS;
             const peticion = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(newUser),
@@ -24,7 +24,7 @@ const userModel = {
     },
 
     async loginUserModel(username,password) {
-        const response = await fetch(`https://usuariossoria.free.beeceptor.com/api/users`)
+        const response = await fetch(process.env.URL_BDD_USERS)
         const users = await response.json()
         const user = users.find(user => user.username === username)
         if (!user) {
