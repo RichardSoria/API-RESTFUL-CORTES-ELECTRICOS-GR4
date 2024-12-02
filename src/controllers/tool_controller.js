@@ -33,7 +33,7 @@ const createToolController = async (req,res) => {
         newToolData.public_id = cloudinaryResponse.public_id
 
         const tool = await toolModel.createToolModel(newToolData)
-        await fs.unlink(req.files.image.tempFilePath)
+        
         res.status(201).json(tool)
     } catch (error) {
         res.status(500).json(error)
@@ -44,7 +44,7 @@ const updateToolController = async(req,res) => {
     const {id} = req.params
     try {
         const tool = await toolModel.updateToolModel(id,req.body)
-        await fs.unlink(req.files.image.tempFilePath)
+
         res.status(200).json(tool)
     } catch (error) {
         res.status(500).json(error)
