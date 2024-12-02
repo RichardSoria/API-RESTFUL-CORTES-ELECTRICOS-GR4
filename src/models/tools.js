@@ -28,7 +28,7 @@ const toolModel = {
     // Crear nueva herramienta
     async createToolModel(newTool) {
         try {
-            const url = process.env.URL_BDD_TOOLS;
+            const url = `https://tools4soria.free.beeceptor.com/api/tools/`;
             const peticion = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(newTool),
@@ -36,7 +36,6 @@ const toolModel = {
             });
     
             if (!peticion.ok) {
-                const errorDetails = await peticion.text();
                 throw new Error(`Error al crear la herramienta: ${peticion.statusText} - ${errorDetails}`);
             }
     
