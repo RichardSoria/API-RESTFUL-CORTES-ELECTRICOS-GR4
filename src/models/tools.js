@@ -26,43 +26,58 @@ const toolModel = {
         return data;
     },
     // Crear nueva herramienta
-    async createToolModel(newTool) {
-        const url = process.env.URL_BDD_TOOLS; 
-        if (!url) throw new Error("URL de la base de datos no configurada");
-
-        const peticion = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(newTool),
-            headers: { 'Content-Type': 'application/json' }
-        });
-        if (!peticion.ok) {
-            throw new Error(`Error al crear la herramienta: ${peticion.statusText}`);
+    async createToolModel(newTool){
+        const url = process.env.URL_BDD_TOOLS;
+        try {
+            const peticion = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(newTool),
+                headers: { 'Content-Type': 'application/json' }
+            });
+    
+            if (!peticion.ok) {
+                throw new Error(`Error al crear la herramienta: ${peticion.statusText}`);
+            }
+    
+            const data = await peticion.json();
+            return data;
+        } catch (error) {
+            console.error("Error al crear la herramienta:", error.message);
+            throw new Error(`Error al crear la herramienta: ${error.message}`);
         }
-        const data = await peticion.json();
-        return data;
     },
 
-    async updateToolModel(toolId, updatedToolData) {
+    async updateToolModel(toolId, updatedToolData){
         const url = `${process.env.URL_BDD_TOOLS}${toolId}`;
     
-        const existingToolResponse = await fetch(url);
-        if (!existingToolResponse.ok) {
-            throw new Error(`Error al obtener la herramienta: ${existingToolResponse.statusText}`);
-        }
-        const existingTool = await existingToolResponse.json();
+        try {
+            // Obtener los datos existentes del recurso
+            const existingToolResponse = await fetch(url);
+            if (!existingToolResponse.ok) {
+                throw new Error(`Error al obtener la herramienta: ${existingToolResponse.statusText}`);
+            }
+            const existingTool = await existingToolResponse.json();
     
-        const combinedToolData = { ...existingTool, ...updatedToolData };
+            // Combinar los datos existentes con los nuevos datos
+            const combinedToolData = { ...existingTool, ...updatedToolData };
     
-        const peticion = await fetch(url, {
-            method: "PATCH",
-            body: JSON.stringify(combinedToolData),
-            headers: { 'Content-Type': "application/json" }
-        });
-        if (!peticion.ok) {
-            throw new Error(`Error al actualizar la herramienta: ${peticion.statusText}`);
+            // Enviar la solicitud de actualización con los datos combinados
+            const peticion = await fetch(url, {
+                method: "PATCH",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(combinedToolData)
+            });
+    
+            if (!peticion.ok) {
+                throw new Error(`Error al actualizar la herramienta: ${peticion.statusText}`);
+            }
+    
+            const data = await peticion.json();
+            return data;
+        } catch (error) {
+            console.error("Error al actualizar la herramienta:", error.message);
+            return { error: "Error al actualizar la herramienta" };
         }
-        const data = await peticion.json();
-        return data;
     },
     async deleteToolModel(toolId) {
         const url = `${process.env.URL_BDD_TOOLS}${toolId}`;
