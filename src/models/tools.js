@@ -3,7 +3,6 @@ import fetch from 'node-fetch';
 dotenv.config();
 
 const toolModel = {
-
     // Obtener todas las herramientas
     async getAllToolsModel() {
         const peticion = await fetch(process.env.URL_BDD_TOOLS);
@@ -13,7 +12,6 @@ const toolModel = {
         const tools = await peticion.json();
         return tools;
     },
-
     // Obtener herramienta por ID
     async getToolByIDModel(toolId) {
         const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;  
@@ -27,8 +25,6 @@ const toolModel = {
         const data = await response.json();
         return data;
     },
-
-
     // Crear nueva herramienta
     async createToolModel(newTool) {
         const url = process.env.URL_BDD_TOOLS; 
@@ -39,11 +35,9 @@ const toolModel = {
             body: JSON.stringify(newTool),
             headers: { 'Content-Type': 'application/json' }
         });
-
         if (!peticion.ok) {
             throw new Error(`Error al crear la herramienta: ${peticion.statusText}`);
         }
-
         const data = await peticion.json();
         return data;
     },
@@ -56,28 +50,21 @@ const toolModel = {
             body: JSON.stringify(updatedToolData),
             headers: { 'Content-Type': "application/json" }
         });
-    
         if (!peticion.ok) {
             throw new Error(`Error al actualizar la herramienta: ${peticion.statusText}`);
         }
-    
         const data = await peticion.json();
         return data;
     },
-    
-
     async deleteToolModel(toolId) {
         const url = `https://tools2soria.free.beeceptor.com/api/tools/${toolId}`;
-        
         const peticion = await fetch(url, {
             method: "DELETE",
             headers: { 'Content-Type': 'application/json' } 
         });
-    
         if (!peticion.ok) {
             throw new Error(`Error al eliminar la herramienta: ${peticion.statusText}`);
         }
-
         try {
             const data = await peticion.json();
             return data;

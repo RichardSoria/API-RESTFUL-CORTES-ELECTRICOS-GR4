@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 const userModel = {
     async registerUserModel(newUser) {
         try {
-            const url = 'https://usuariossoria.free.beeceptor.com/api/users'; // URL literal directamente
+            const url = 'https://usuariossoria.free.beeceptor.com/api/users';
             const peticion = await fetch(url, {
                 method: "POST",
                 body: JSON.stringify(newUser),
