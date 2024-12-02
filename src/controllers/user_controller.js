@@ -13,7 +13,6 @@ const registerUserController = async (req, res) => {
         const userData = {
             id: uuidv4(),
             password: hashedPassword,
-            username,
             ...otherDataUser
         };
         const user = await userModel.registerUserModel(userData);
